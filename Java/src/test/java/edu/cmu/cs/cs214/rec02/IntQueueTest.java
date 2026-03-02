@@ -36,13 +36,10 @@ public class IntQueueTest {
      * Called before each test.
      */
     @Before
-    public void setUp() {
-        // comment/uncomment these lines to test each class
-        mQueue = new LinkedIntQueue();
-    //    mQueue = new ArrayIntQueue();
-
-        testList = new ArrayList<>(List.of(1, 2, 3));
-    }
+public void setUp() {
+    mQueue = new ArrayIntQueue();  // эсвэл LinkedIntQueue
+    testList = new ArrayList<>(List.of(1,2,3));
+}
 
     @Test
     public void testIsEmpty() {
@@ -52,20 +49,19 @@ public class IntQueueTest {
 
     @Test
     public void testNotEmpty() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+    mQueue.enqueue(5);
+    assertFalse(mQueue.isEmpty());
     }
 
     @Test
     public void testPeekEmptyQueue() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+    assertNull(mQueue.peek());
     }
 
     @Test
     public void testPeekNoEmptyQueue() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+    mQueue.enqueue(10);
+    assertEquals(Integer.valueOf(10), mQueue.peek());
     }
 
     @Test
@@ -80,8 +76,46 @@ public class IntQueueTest {
 
     @Test
     public void testDequeue() {
-        // TODO: write your own unit test
-        fail("Test not implemented");
+    mQueue.enqueue(1);
+    mQueue.enqueue(2);
+
+    assertEquals(Integer.valueOf(1), mQueue.dequeue());
+    assertEquals(Integer.valueOf(2), mQueue.dequeue());
+    assertNull(mQueue.dequeue());
+    }
+    @Test
+    public void testEnsureCapacity() {
+    for (int i = 0; i < 15; i++) {
+        mQueue.enqueue(i);
+    }
+
+    assertEquals(15, mQueue.size());
+    assertEquals(Integer.valueOf(0), mQueue.dequeue());
+    }
+
+    @Test
+    public void testWrapAround() {
+    for (int i = 0; i < 8; i++) {
+        mQueue.enqueue(i);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        mQueue.dequeue();
+    }
+
+    mQueue.enqueue(100);
+
+    assertEquals(Integer.valueOf(5), mQueue.dequeue());
+    }
+
+    @Test
+    public void testClear() {
+    mQueue.enqueue(1);
+    mQueue.enqueue(2);
+    mQueue.clear();
+
+    assertTrue(mQueue.isEmpty());
+    assertEquals(0, mQueue.size());
     }
 
     @Test
